@@ -1,0 +1,1 @@
+using CollegeService as service from '../../srv/service';

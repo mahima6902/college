@@ -8,11 +8,17 @@
   "dependencies": {
     "@sap/cds": "^7",
     "@sap/cds-hana": "^2",
-    "@sap/xssec": "^4.1.3",
+    "@sap/hana-client": "^2.21.28",
+    "@sap/xssec": "^3",
     "express": "^4"
   },
   "scripts": {
-    "start": "cds-serve"
+    "start": "cds-serve",
+    "watch-college": "cds watch --open college/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy college --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+    "watch-coursemaintenance": "cds watch --open coursemaintenance/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "build": {
@@ -28,8 +34,23 @@
     },
     "requires": {
       "db": {
-        "kind": "hana-cloud"
-      }
+        "kind": "hana"
+      },
+      "auth": "basic"
+    },
+    "hana": {
+      "deploy-format": "hdbtable"
     }
+  },
+  "sapux": [
+    "app/college",
+    "app/coursemaintenance"
+  ],
+  "devDependencies": {
+    "@sap/hdi-deploy": "4.9.5",
+    "@sap/ux-specification": "^1.120.14",
+    "@sap/ux-ui5-tooling": "^1.14.1",
+    "@ui5/cli": "^3.11.0",
+    "rimraf": "^5.0.5"
   }
 }

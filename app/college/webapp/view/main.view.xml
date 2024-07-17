@@ -1,0 +1,85 @@
+<mvc:View
+    controllerName="college.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <App>
+        <pages>
+            <Page title="UMS">
+                <content>
+                    <TabContainer>
+                        <items>
+                            <TabContainerItem name="Courses">
+                                <content>
+                                    <List id="courseList" 
+                                          items="{/Courses}"
+                                          itemPress=".onCourseListItemPress">
+                                        <items>
+                                            <StandardListItem
+                                                title="{coursename}"
+                                                description="Duration: {duration}, Semesters: {semcount}" />
+                                        </items>
+                                    </List>
+                                    <VBox>
+                                        <Input value="{viewModel>/newCourse/coursename}" placeholder="Course Name" />
+                                        <Input value="{viewModel>/newCourse/duration}" placeholder="Duration" type="Number" />
+                                        <Input value="{viewModel>/newCourse/semcount}" placeholder="Semester Count" type="Number" />
+                                        <Button text="Add Course" press="onAddCourse" />
+                                    </VBox>
+                                </content>
+                            </TabContainerItem>
+                            <TabContainerItem name="Subjects">
+                                <content>
+                                    <List id="subjectList" 
+                                          items="{/Subjects}"
+                                          itemPress=".onSubjectListItemPress">
+                                        <items>
+                                            <StandardListItem
+                                                title="{subjectname}"
+                                                description="Semester: {semnum}, SubjectCode: {subcode}" />
+                                        </items>
+                                    </List>
+                                    <VBox>
+                                        <Input value="{viewModel>/newSubject/SubjectName}" placeholder="Subject Name" />
+                                        <Input value="{viewModel>/newSubject/Description}" placeholder="Description" />
+                                        <Button text="Add Subject" press="onAddSubject" />
+                                    </VBox>
+                                </content>
+                            </TabContainerItem>
+                            <TabContainerItem name="Selected Courses">
+                                <content>
+                                    <List id="selectedCourseList" 
+                                          items="{/SelectedCourses}"
+                                          itemPress=".onSelectedCourseListItemPress">
+                                        <items>
+                                            <StandardListItem
+                                                title="{Course/coursename}"
+                                                description="Semester: {Semester/Semnumber}" />
+                                        </items>
+                                    </List>
+                                    <VBox>
+                                        <Select 
+                                            selectedKey="{viewModel>/selectedCourse/courseid}"
+                                            items="{/Courses}">
+                                            <core:Item key="{courseid}" text="{coursename}" />
+                                        </Select>
+                                        <Select 
+                                            selectedKey="{viewModel>/selectedCourse/semnum}"
+                                            items="{/Semesters}">
+                                            <core:Item key="{semnum}" text="{SemesterNumber}" />
+                                        </Select>
+                                        <MultiComboBox
+                                            selectedKeys="{viewModel>/selectedCourse/SubjectIds}"
+                                            items="{/Subjects}">
+                                            <core:Item key="{subjectid}" text="{SubjectName}" />
+                                        </MultiComboBox>
+                                        <Button text="Select Course" press="onSelectCourse" />
+                                    </VBox>
+                                </content>
+                            </TabContainerItem>
+                        </items>
+                    </TabContainer>
+                </content>
+            </Page>
+        </pages>
+    </App>
+</mvc:View>

@@ -1,0 +1,184 @@
+{
+  "_version": "1.59.0",
+  "sap.app": {
+    "id": "college",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.14.1",
+      "toolsId": "f75551bd-55b1-4aea-ad34-255059e03d3a"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/college/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "dependencies": {
+      "minUI5Version": "1.126.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ushell": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "college.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+            "viewType": "XML",
+            "viewPath": "com.yourcompany.collegeapp.view",
+            "controlId": "app",
+            "controlAggregation": "pages"
+      },
+      "routes": [
+        {
+          "pattern": "",
+          "name": "main",
+          "target": "main"
+        },
+        {
+          "pattern": ":?query:",
+          "name": "CourseList",
+          "target": "CourseList"
+        },
+        {
+          "pattern": "Course({key}):?query:",
+          "name": "CourseObjectPage",
+          "target": "CourseObjectPage"
+        },
+        {
+          "pattern": "Course({key})/semesters({key2}):?query:",
+          "name": "SemesterObjectPage",
+          "target": "SemesterObjectPage"
+        }
+      ],
+      "targets": {
+        "main": {
+          "viewName": "Main",
+          "viewLevel": 1
+        },
+        "CourseList": {
+          "type": "Component",
+          "id": "CourseList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/Course",
+              "variantManagement": "Page",
+              "navigation": {
+                "Course": {
+                  "detail": {
+                    "route": "CourseObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "CourseObjectPage": {
+          "type": "Component",
+          "id": "CourseObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/Course",
+              "navigation": {
+                "semesters": {
+                  "detail": {
+                    "route": "SemesterObjectPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "SemesterObjectPage": {
+          "type": "Component",
+          "id": "SemesterObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/Course/semesters"
+            }
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "ManagedAppRouter"
+  }
+}
